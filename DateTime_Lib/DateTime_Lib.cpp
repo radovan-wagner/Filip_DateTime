@@ -401,6 +401,8 @@ bool DateTime::operator>(const DateTime& dateTime)
 						{
 							return false;
 						}
+						else
+							return false;		// Pridal som defaultny return - kde by sa nemal dostat, len aby som mal odstraneny warning
 					}
 				}
 			}
@@ -472,6 +474,8 @@ bool DateTime::operator<(const DateTime& dateTime)
 						{
 							return false;
 						}
+						else
+							return false;		// Pridal som defaultny return - kde by sa nemal dostat, len aby som mal odstraneny warning
 					}
 				}
 			}
@@ -512,7 +516,8 @@ int DateTime::operator[](int index)
 int DateTime::operator-(const DateTime& dateTime)
 {
 	int Month[12] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
-	int s = 0, y = 0, m = 0, d = 0, h = 0, m = 0;
+//	int s = 0, y = 0, m = 0, d = 0, h = 0, m = 0;
+	int s = 0, y = 0, mo = 0, d = 0, h = 0, im = 0;
 	DateTime tmpDT(dateTime.month, dateTime.day, dateTime.year, dateTime.hour, dateTime.minute, dateTime.second);
 
 	if (*this == tmpDT)
@@ -521,9 +526,11 @@ int DateTime::operator-(const DateTime& dateTime)
 	if (year > tmpDT.year)
 	{
 		y = year - tmpDT.year;
-		m = month - tmpDT.month;
+//		m = month - tmpDT.month;
+		mo = month - tmpDT.month;
 
-		if (m < 0)
+//		if (m < 0)
+		if (mo < 0)
 			y--;
 
 		d += (Month[tmpDT.month - 1] - tmpDT.day) + 1;
@@ -536,6 +543,9 @@ int DateTime::operator-(const DateTime& dateTime)
 		{
 			d += Month[tmpDT.month - 1];
 			tmpDT.month++;
+			// Pridal som test
+			if (tmpDT.month == 13)
+				tmpDT.month = 1;
 		};
 
 		d += day;
